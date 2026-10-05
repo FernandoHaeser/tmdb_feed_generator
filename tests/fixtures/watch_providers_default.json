@@ -1,0 +1,16 @@
+{
+  "results": {
+    "BR": {
+      "flatrate": [
+        {
+          "provider_id": 8,
+          "provider_name": "8"
+        },
+        {
+          "provider_id": 119,
+          "provider_name": "119"
+        }
+      ]
+    }
+  }
+}

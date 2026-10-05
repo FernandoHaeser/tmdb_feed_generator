@@ -1,0 +1,58 @@
+{
+  "results": [
+    {
+      "id": 9101,
+      "name": "Série de Exemplo 1",
+      "overview": "Sinopse de exemplo da série 1, usada apenas para testar o gerador de feed.",
+      "first_air_date": "2016-03-01",
+      "popularity": 98.5,
+      "poster_path": "/sample-tv-poster-1.jpg",
+      "backdrop_path": "/sample-tv-backdrop-1.jpg"
+    },
+    {
+      "id": 9102,
+      "name": "Série de Exemplo 2",
+      "overview": "Sinopse de exemplo da série 2, usada apenas para testar o gerador de feed.",
+      "first_air_date": "2017-03-01",
+      "popularity": 97.5,
+      "poster_path": "/sample-tv-poster-2.jpg",
+      "backdrop_path": "/sample-tv-backdrop-2.jpg"
+    },
+    {
+      "id": 9103,
+      "name": "Série de Exemplo 3",
+      "overview": "Sinopse de exemplo da série 3, usada apenas para testar o gerador de feed.",
+      "first_air_date": "2018-03-01",
+      "popularity": 96.5,
+      "poster_path": "/sample-tv-poster-3.jpg",
+      "backdrop_path": "/sample-tv-backdrop-3.jpg"
+    },
+    {
+      "id": 9104,
+      "name": "Série de Exemplo 4",
+      "overview": "Sinopse de exemplo da série 4, usada apenas para testar o gerador de feed.",
+      "first_air_date": "2019-03-01",
+      "popularity": 95.5,
+      "poster_path": "/sample-tv-poster-4.jpg",
+      "backdrop_path": "/sample-tv-backdrop-4.jpg"
+    },
+    {
+      "id": 9105,
+      "name": "Série de Exemplo 5",
+      "overview": "Sinopse de exemplo da série 5, usada apenas para testar o gerador de feed.",
+      "first_air_date": "2020-03-01",
+      "popularity": 94.5,
+      "poster_path": "/sample-tv-poster-5.jpg",
+      "backdrop_path": "/sample-tv-backdrop-5.jpg"
+    },
+    {
+      "id": 9106,
+      "name": "Série de Exemplo 6",
+      "overview": "Sinopse de exemplo da série 6, usada apenas para testar o gerador de feed.",
+      "first_air_date": "2021-03-01",
+      "popularity": 93.5,
+      "poster_path": "/sample-tv-poster-6.jpg",
+      "backdrop_path": "/sample-tv-backdrop-6.jpg"
+    }
+  ]
+}

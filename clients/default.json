@@ -1,0 +1,8 @@
+{
+  "region": "BR",
+  "language": "pt-BR",
+  "providers": ["netflix", "prime", "disney", "globoplay"],
+  "heroCount": 5,
+  "rowSize": 12,
+  "perProviderRows": true
+}
