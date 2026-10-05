@@ -1,0 +1,13 @@
+# Runs the whole stack without a TMDB key, answering from tests/fixtures (fake titles and image paths).
+#   docker compose -f docker-compose.yml -f docker-compose.demo.yml up --build
+services:
+  generator:
+    env_file: !reset []
+    environment:
+      FEED_OUT: /feed
+      FEED_FIXTURES: /fixtures
+      FEED_INTERVAL_HOURS: "1"
+    volumes:
+      - feed:/feed
+      - ./clients:/app/clients:ro
+      - ./tests/fixtures:/fixtures:ro
