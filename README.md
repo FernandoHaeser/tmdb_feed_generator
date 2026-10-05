@@ -53,9 +53,12 @@ One file per client in `clients/<client>.json`; the file name is the client id a
   "providers": ["netflix", "prime", "disney", "globoplay"],
   "heroCount": 5,
   "rowSize": 12,
-  "perProviderRows": true
+  "perProviderRows": true,
+  "heroMaxAgeDays": 730
 }
 ```
+
+`heroMaxAgeDays` makes the hero favour titles released in the last N days (most popular first) and fill any remaining slots with the most popular of all time; `0` turns that off.
 
 `providers` is in priority order: when a title streams on several, the first one wins and is the app the card opens. Titles that are on none of the listed services are dropped.
 
@@ -85,9 +88,16 @@ Consumers should read the feed over HTTPS and treat it as untrusted input.
 
 ## Legal and attribution
 
-This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming availability data is provided by JustWatch. Both require attribution: every feed carries the notice in its `attribution` field, and **apps that display the feed must show it** (and the TMDB logo where TMDB's terms require it).
+**Commercial use.** TMDB's terms for the free API say: "The license ... does not permit any commercial use of TMDB, the TMDB APIs, or TMDB Content." Commercial use needs a separate written agreement with TMDB. Read the [API terms of use](https://www.themoviedb.org/api-terms-of-use) and decide whether your use qualifies before you deploy this for a business or for customers.
 
-The free TMDB API tier is, to my knowledge, meant for non-commercial use; read [TMDB's terms of use](https://www.themoviedb.org/api-terms-of-use) before using this commercially.
+**Attribution you must show.** Every feed carries the required notice in its `attribution` field, and **apps that display the feed must show it** prominently:
+
+> This product uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB. Streaming availability data provided by JustWatch.
+
+- The TMDB logo, if you show it, must be less prominent than your own app's logo and must not imply endorsement. Official logos: <https://www.themoviedb.org/about/logos-attribution>.
+- Streaming availability comes from JustWatch; TMDB requires you to name JustWatch as the source, and will revoke API access for non-compliant use.
+
+This project is not affiliated with TMDB or JustWatch.
 
 ## Development
 

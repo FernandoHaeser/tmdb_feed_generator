@@ -4,6 +4,11 @@ All notable changes are recorded here. The format follows [Keep a Changelog](htt
 
 ## [Unreleased]
 
+### Changed
+- The hero favours recent releases (`heroMaxAgeDays`, default 730; `0` disables) and falls back to the most popular titles.
+- The `attribution` text uses the exact notice TMDB's terms require.
+- README states the free API's no-commercial-use term and the attribution and logo rules.
+
 ### Added
 - Feed generator: popular movies and series on the configured streaming services, from TMDB data.
 - Per-client configuration (region, language, providers, hero and row sizes).

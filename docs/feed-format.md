@@ -5,7 +5,7 @@ The generator writes `recommendations.json` for each client. Everything except `
 ```json
 {
   "generatedAt": "2026-10-05T12:00:00Z",
-  "attribution": "This product uses the TMDB API but is not endorsed or certified by TMDB. Streaming availability data provided by JustWatch.",
+  "attribution": "This product uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB. Streaming availability data provided by JustWatch.",
   "hero": [
     {
       "id": "tmdb-tv-108978",
@@ -34,7 +34,7 @@ The generator writes `recommendations.json` for each client. Everything except `
 |---|---|
 | `generatedAt` | UTC timestamp of the run |
 | `attribution` | Notice that apps displaying the feed must show |
-| `hero` | Featured titles (large artwork), at most `heroCount` |
+| `hero` | Featured titles (large artwork), at most `heroCount`: recent releases first (see `heroMaxAgeDays`), then the most popular |
 | `rows` | Rows of cards; rows without items are never emitted |
 
 ## Row
@@ -66,4 +66,4 @@ The generator writes `recommendations.json` for each client. Everything except `
 - Treat every field as untrusted text; only load images from HTTPS URLs.
 - Pin an action to its `packageName` (for example `Intent.setPackage` on Android) so a feed cannot open an arbitrary app.
 - Hide cards whose app is not installed, and rows that end up empty.
-- Show the `attribution` text.
+- Show the `attribution` text, and the TMDB logo if you use it, less prominent than your own logo.
