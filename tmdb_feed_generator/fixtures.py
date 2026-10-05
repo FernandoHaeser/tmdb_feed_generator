@@ -13,6 +13,8 @@ class FixtureTransport:
         if parts[0] == "discover":
             providers = params.get("with_watch_providers", "")
             candidates = [f"discover_{parts[1]}_{providers}.json", f"discover_{parts[1]}.json"]
+            if "primary_release_date.gte" in params or "first_air_date.gte" in params:
+                candidates.insert(0, f"discover_{parts[1]}_recent.json")
         elif parts[0] == "watch":
             candidates = [f"providers_{parts[2]}.json"]
         else:  # /{type}/{id}/watch/providers

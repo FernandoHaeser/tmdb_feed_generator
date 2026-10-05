@@ -63,20 +63,23 @@ class TmdbClient:
         self._region = region
         self._providers_cache: dict[tuple[str, int], list[dict]] = {}
 
-    def discover(self, media_type: str, provider_ids: list[int]) -> list[dict]:
-        """Popular titles streaming (flatrate) on any of [provider_ids] in the region."""
-        data = self._transport(
-            f"/discover/{media_type}",
-            {
-                "language": self._language,
-                "watch_region": self._region,
-                "with_watch_providers": "|".join(str(i) for i in provider_ids),
-                "with_watch_monetization_types": "flatrate",
-                "sort_by": "popularity.desc",
-                "include_adult": "false",
-                "page": "1",
-            },
-        )
+    def discover(self, media_type: str, provider_ids: list[int], since: str | None = None) -> list[dict]:
+        """Popular titles streaming (flatrate) on any of [provider_ids] in the region.
+
+        [since] (YYYY-MM-DD) keeps only titles released on or after that date.
+        """
+        params = {
+            "language": self._language,
+            "watch_region": self._region,
+            "with_watch_providers": "|".join(str(i) for i in provider_ids),
+            "with_watch_monetization_types": "flatrate",
+            "sort_by": "popularity.desc",
+            "include_adult": "false",
+            "page": "1",
+        }
+        if since:
+            params["primary_release_date.gte" if media_type == "movie" else "first_air_date.gte"] = since
+        data = self._transport(f"/discover/{media_type}", params)
         return data.get("results", [])
 
     def watch_providers(self, media_type: str, tmdb_id: int) -> list[dict]:

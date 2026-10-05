@@ -1,0 +1,22 @@
+{
+  "results": [
+    {
+      "id": 9201,
+      "title": "Lançamento de Exemplo 1",
+      "overview": "Sinopse do lançamento 1, usada apenas para testar o gerador de feed.",
+      "release_date": "2025-11-20",
+      "popularity": 40,
+      "poster_path": "/sample-new-poster-1.jpg",
+      "backdrop_path": "/sample-new-backdrop-1.jpg"
+    },
+    {
+      "id": 9202,
+      "title": "Lançamento de Exemplo 2",
+      "overview": "Sinopse do lançamento 2, usada apenas para testar o gerador de feed.",
+      "release_date": "2025-06-02",
+      "popularity": 30,
+      "poster_path": "/sample-new-poster-2.jpg",
+      "backdrop_path": "/sample-new-backdrop-2.jpg"
+    }
+  ]
+}

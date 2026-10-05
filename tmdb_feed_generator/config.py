@@ -23,6 +23,8 @@ class ClientConfig:
     hero_count: int = 5
     row_size: int = 12
     per_provider_rows: bool = True
+    # The hero favours titles released within this many days; 0 turns that off (most popular of all time).
+    hero_max_age_days: int = 730
 
 
 def load_client(path: Path) -> ClientConfig:
@@ -44,6 +46,7 @@ def load_client(path: Path) -> ClientConfig:
         hero_count=_bounded(raw, "heroCount", 5, 1, 10),
         row_size=_bounded(raw, "rowSize", 12, 4, 20),
         per_provider_rows=bool(raw.get("perProviderRows", True)),
+        hero_max_age_days=_bounded(raw, "heroMaxAgeDays", 730, 0, 3650),
     )
 
 

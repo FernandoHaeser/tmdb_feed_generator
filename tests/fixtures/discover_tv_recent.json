@@ -1,0 +1,13 @@
+{
+  "results": [
+    {
+      "id": 9301,
+      "name": "Série Nova de Exemplo",
+      "overview": "Sinopse da série nova, usada apenas para testar o gerador de feed.",
+      "first_air_date": "2025-09-10",
+      "popularity": 35,
+      "poster_path": "/sample-new-tv-poster.jpg",
+      "backdrop_path": "/sample-new-tv-backdrop.jpg"
+    }
+  ]
+}

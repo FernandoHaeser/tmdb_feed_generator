@@ -1,7 +1,7 @@
 """Turns TMDB data into the feed described in docs/feed-format.md."""
 
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from tmdb_feed_generator.config import ClientConfig
 from tmdb_feed_generator.providers import Provider
@@ -12,8 +12,10 @@ IMAGE_PATH = re.compile(r"^/[\w.-]+$")
 MEDIA_TYPES = ("movie", "tv")
 MIN_OVERVIEW = 20
 MAX_DESCRIPTION = 280
+# TMDB's API terms require this notice, shown prominently, and JustWatch must be named as the source
+# of the streaming availability data.
 ATTRIBUTION = (
-    "This product uses the TMDB API but is not endorsed or certified by TMDB. "
+    "This product uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB. "
     "Streaming availability data provided by JustWatch."
 )
 
@@ -23,9 +25,10 @@ class EmptyFeedError(RuntimeError):
 
 
 def build_feed(client: TmdbClient, config: ClientConfig, now: datetime | None = None) -> dict:
-    builder = _Builder(client, config)
+    now = now or datetime.now(timezone.utc)
+    builder = _Builder(client, config, now)
     feed = {
-        "generatedAt": (now or datetime.now(timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "generatedAt": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "attribution": ATTRIBUTION,
         "hero": builder.hero(),
         "rows": builder.rows(),
@@ -36,29 +39,42 @@ def build_feed(client: TmdbClient, config: ClientConfig, now: datetime | None = 
 
 
 class _Builder:
-    def __init__(self, client: TmdbClient, config: ClientConfig):
+    def __init__(self, client: TmdbClient, config: ClientConfig, now: datetime):
         self._client = client
         self._config = config
         self._all_ids = [p.tmdb_id for p in config.providers]
         self._discovered: dict[str, list[dict]] = {
             media_type: client.discover(media_type, self._all_ids) for media_type in MEDIA_TYPES
         }
+        # Separate query for recent releases: they may not be among the 20 most popular titles of all time.
+        self._recent: dict[str, list[dict]] = {media_type: [] for media_type in MEDIA_TYPES}
+        if config.hero_max_age_days > 0:
+            since = (now - timedelta(days=config.hero_max_age_days)).date().isoformat()
+            self._recent = {
+                media_type: client.discover(media_type, self._all_ids, since=since) for media_type in MEDIA_TYPES
+            }
 
     def hero(self) -> list[dict]:
-        merged = sorted(
-            ((media_type, raw) for media_type in MEDIA_TYPES for raw in self._discovered[media_type]),
-            key=lambda pair: pair[1].get("popularity", 0),
-            reverse=True,
-        )
-        items = []
-        for media_type, raw in merged:
-            if len(items) == self._config.hero_count:
-                break
-            if not _image(raw.get("backdrop_path"), "w1280") or len(raw.get("overview", "")) < MIN_OVERVIEW:
-                continue
-            provider = self._pick_provider(media_type, raw)
-            if provider:
-                items.append(_item(media_type, raw, provider, image_size=None))
+        """Recent releases first (most popular first), then the most popular of all time to fill the remaining slots."""
+        items: list[dict] = []
+        seen: set[tuple[str, int]] = set()
+        for pool in (self._recent, self._discovered):
+            merged = sorted(
+                ((media_type, raw) for media_type in MEDIA_TYPES for raw in pool[media_type]),
+                key=lambda pair: pair[1].get("popularity", 0),
+                reverse=True,
+            )
+            for media_type, raw in merged:
+                if len(items) == self._config.hero_count:
+                    return items
+                if (media_type, raw["id"]) in seen:
+                    continue
+                seen.add((media_type, raw["id"]))
+                if not _image(raw.get("backdrop_path"), "w1280") or len(raw.get("overview", "")) < MIN_OVERVIEW:
+                    continue
+                provider = self._pick_provider(media_type, raw)
+                if provider:
+                    items.append(_item(media_type, raw, provider, image_size=None))
         return items
 
     def rows(self) -> list[dict]:
